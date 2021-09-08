@@ -1,6 +1,12 @@
 # ProxyShell
 ProxyShell 漏洞poc
 ## 改造ProxyShell poc
+需要安装
+pip3 install pypsrp
+
+并使用wsman.py替换掉site-packages/pypsrp/wsman.py
+
+cp wsman.py venv/lib/*/site-packages/pypsrp/wsman.py
 
     usage: proxyshell.py -u url -e emai
     
@@ -56,13 +62,9 @@ ProxyShell 漏洞poc
 
 
 
-需要安装
-pip3 install pypsrp
 
-并使用wsman.py替换掉site-packages/pypsrp/wsman.py
 
-cp wsman.py venv/lib/*/site-packages/pypsrp/wsman.py
-Reference:
+## Reference: ##
 
 - 1.https://github.com/ktecv2000/ProxyShell
 

